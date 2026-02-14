@@ -24,10 +24,10 @@
         .heart-photo {
             position: absolute;
             bottom: -250px; 
-            width: 180px; 
-            height: 180px;
-            background-color: #ff4d6d;
-            clip-path: path('M90,45 C90,15 15,15 15,60 C15,105 90,160 90,160 C90,160 165,105 165,60 C165,15 90,15 90,45 Z');
+            width: 200px; /* Increased size for better clarity */
+            height: 200px;
+            background-color: white; /* White background to keep photos clear */
+            clip-path: path('M100,50 C100,16 16,16 16,66 C16,116 100,177 100,177 C100,177 184,116 184,66 C184,16 100,16 100,50 Z');
             display: flex;
             justify-content: center;
             align-items: center;
@@ -37,12 +37,13 @@
         }
 
         .heart-photo img {
-            width: 120%; 
-            height: 120%;
-            object-fit: cover; 
+            width: 90%; 
+            height: 90%;
+            /* Changed to 'contain' so the whole photo is visible */
+            object-fit: contain; 
             object-position: center;
-            margin-top: -20px; 
-            border-radius: 50%;
+            margin-top: -15px;
+            border-radius: 10px;
         }
 
         @keyframes floatUpStraight {
@@ -109,7 +110,6 @@
             const photoNum = Math.floor(Math.random() * totalPhotos) + 1;
             
             const img = new Image();
-            // Ensure path and extension (.jpeg) match exactly
             img.src = "photos/" + photoNum + ".jpeg"; 
             
             img.onload = function() {
@@ -117,11 +117,13 @@
             };
 
             img.onerror = function() {
-                heart.innerHTML = '<span style="color:white; font-size:4rem;">❤️</span>';
+                heart.innerHTML = '<span style="color:#ff4d6d; font-size:4rem;">❤️</span>';
             };
             
-            heart.style.left = Math.random() * 80 + 'vw';
-            const duration = Math.random() * 2 + 5; 
+            heart.style.left = Math.random() * 70 + 'vw';
+            
+            // Romantic slow speed: 10-14 seconds
+            const duration = Math.random() * 4 + 10; 
             heart.style.animationDuration = duration + 's';
             
             document.body.appendChild(heart);
@@ -145,10 +147,9 @@
         }
 
         function handleYes() {
-            // FORCE AUDIO START: Creates a new audio object on user click
             const audio = new Audio('song.mp3');
             audio.loop = true;
-            audio.play().catch(e => console.log("Audio failed to play:", e));
+            audio.play().catch(e => console.log("Audio failed:", e));
 
             document.body.innerHTML = `
                 <div style="height: 100vh; width: 100vw; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: fixed; top: 0; left: 0; pointer-events: none;">
@@ -157,7 +158,8 @@
                 </div>
             `;
 
-            setInterval(createPhotoHeart, 600); 
+            // Spawns a heart every 2 seconds for a clean, slow gallery look
+            setInterval(createPhotoHeart, 2000); 
         }
     </script>
 </body>

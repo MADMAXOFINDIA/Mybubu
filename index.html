@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For My Princess Bubu ❤️</title>
+    <style>
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffe4e1;
+            font-family: 'Segoe UI', sans-serif;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .heart-photo {
+            position: absolute;
+            bottom: -250px; 
+            width: 180px; 
+            height: 180px;
+            background-color: #ff4d6d;
+            clip-path: path('M90,45 C90,15 15,15 15,60 C15,105 90,160 90,160 C90,160 165,105 165,60 C165,15 90,15 90,45 Z');
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: floatUpStraight linear forwards;
+            z-index: 5; 
+            filter: drop-shadow(0 0 15px rgba(255, 77, 109, 0.6));
+        }
+
+        .heart-photo img {
+            width: 75%;
+            height: 75%;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-top: -20px;
+            border: 3px solid white;
+        }
+
+        @keyframes floatUpStraight {
+            0% { transform: translateY(0); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateY(-150vh); opacity: 1; }
+        }
+
+        #container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 2.5rem 1.5rem;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 360px;
+            z-index: 100;
+        }
+
+        #yesBtn { background-color: #ff4d6d; color: white; border:none; padding:15px; border-radius:50px; font-weight:bold; width:100%; font-size:1.3rem; cursor:pointer; }
+        #noBtn { background-color: #adb5bd; color: white; border:none; padding:15px; border-radius:50px; font-weight:bold; width:100%; font-size:1.3rem; margin-top:10px; cursor:pointer; }
+
+        .full-screen-yes {
+            position: fixed !important;
+            top: 0 !important; left: 0 !important;
+            width: 100vw !important; height: 100vh !important;
+            font-size: 4rem !important;
+            border-radius: 0 !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            z-index: 2000 !important;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="container">
+        <h1 id="question">Will you be my Valentine?</h1>
+        <button id="yesBtn" onclick="handleYes()">YES</button>
+        <button id="noBtn" onclick="onNoClick()">NO</button>
+    </div>
+
+    <script>
+        let noCount = 0;
+        const totalPhotos = 50; 
+        const noMessages = [
+            "Are you sure", "Bubu u sure", "Bububuuuuuuu", 
+            "Just say yes bubu 😭", "Bubu pleaseeeee 😭", "Princess bubu say yes na"
+        ];
+
+        function createPhotoHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-photo');
+            const photoNum = Math.floor(Math.random() * totalPhotos) + 1;
+            
+            const img = document.createElement('img');
+            // UPDATED: Now looks for .jpeg extension
+            img.src = `photos/${photoNum}.jpeg`; 
+            
+            img.onload = function() {
+                heart.appendChild(img);
+            };
+
+            img.onerror = function() {
+                heart.innerHTML = '<span style="color:white; font-size:4rem;">❤️</span>';
+            };
+            
+            heart.style.left = Math.random() * 75 + 'vw';
+            const duration = Math.random() * 2 + 5; 
+            heart.style.animationDuration = duration + 's';
+            
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), duration * 1000);
+        }
+
+        function onNoClick() {
+            const noBtn = document.getElementById('noBtn');
+            const yesBtn = document.getElementById('yesBtn');
+            if (noCount < noMessages.length) {
+                noBtn.innerText = noMessages[noCount];
+                yesBtn.style.transform = `scale(${1 + (noCount + 1) * 0.8})`;
+                noCount++;
+            }
+            if (noCount === noMessages.length) {
+                yesBtn.classList.add('full-screen-yes');
+                noBtn.style.display = 'none';
+                document.getElementById('question').style.display = 'none';
+            }
+        }
+
+        function handleYes() {
+            document.body.innerHTML = `
+                <div style="height: 100vh; width: 100vw; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: fixed; top: 0; left: 0; pointer-events: none;">
+                    <h1 style="font-size: 3rem; color: #d63384; z-index: 10000; margin-bottom: 20px;">I Love You Princess Bubu</h1>
+                    <div style="font-size: 8rem; animation: pulse 1s infinite; z-index: 10000;">💖</div>
+                </div>
+            `;
+            setInterval(createPhotoHeart, 600); 
+        }
+    </script>
+</body>
+</html>

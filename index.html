@@ -20,6 +20,7 @@
             position: relative;
         }
 
+        /* PHOTO HEARTS */
         .heart-photo {
             position: absolute;
             bottom: -250px; 
@@ -89,10 +90,6 @@
 </head>
 <body>
 
-    <audio id="valentineMusic">
-        <source src="song.mp3" type="audio/mpeg">
-    </audio>
-
     <div id="container">
         <h1 id="question">Will you be my Valentine?</h1>
         <div class="buttons">
@@ -112,6 +109,7 @@
             const photoNum = Math.floor(Math.random() * totalPhotos) + 1;
             
             const img = new Image();
+            // Ensure path and extension (.jpeg) match exactly
             img.src = "photos/" + photoNum + ".jpeg"; 
             
             img.onload = function() {
@@ -147,9 +145,10 @@
         }
 
         function handleYes() {
-            // Start the music!
-            const music = document.getElementById("valentineMusic");
-            music.play().catch(e => console.log("Music blocked until interaction"));
+            // FORCE AUDIO START: Creates a new audio object on user click
+            const audio = new Audio('song.mp3');
+            audio.loop = true;
+            audio.play().catch(e => console.log("Audio failed to play:", e));
 
             document.body.innerHTML = `
                 <div style="height: 100vh; width: 100vw; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: fixed; top: 0; left: 0; pointer-events: none;">
@@ -157,6 +156,7 @@
                     <div style="font-size: 8rem; animation: pulse 1s infinite; z-index: 10000;">💖</div>
                 </div>
             `;
+
             setInterval(createPhotoHeart, 600); 
         }
     </script>

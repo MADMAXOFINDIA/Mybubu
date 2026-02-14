@@ -89,6 +89,10 @@
 </head>
 <body>
 
+    <audio id="valentineMusic">
+        <source src="song.mp3" type="audio/mpeg">
+    </audio>
+
     <div id="container">
         <h1 id="question">Will you be my Valentine?</h1>
         <div class="buttons">
@@ -108,7 +112,6 @@
             const photoNum = Math.floor(Math.random() * totalPhotos) + 1;
             
             const img = new Image();
-            // FOR GITHUB: Ensure your folder is "photos" and files are "1.jpeg"
             img.src = "photos/" + photoNum + ".jpeg"; 
             
             img.onload = function() {
@@ -144,6 +147,10 @@
         }
 
         function handleYes() {
+            // Start the music!
+            const music = document.getElementById("valentineMusic");
+            music.play().catch(e => console.log("Music blocked until interaction"));
+
             document.body.innerHTML = `
                 <div style="height: 100vh; width: 100vw; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: fixed; top: 0; left: 0; pointer-events: none;">
                     <h1 style="font-size: 2.5rem; color: #d63384; z-index: 10000; margin-bottom: 20px;">Happy Valentine's Day Bubu!</h1>
